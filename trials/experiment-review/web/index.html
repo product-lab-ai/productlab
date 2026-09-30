@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Product Lab | Experiment review</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="data.js" defer></script>
+  <script src="variant.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#report">Skip to experiment result</a>
+  <header class="masthead">
+    <a class="wordmark" href="index.html" aria-label="Product Lab review home">Product Lab <span>Research trial</span></a>
+    <span class="local">Local review</span>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <h1 id="page-title">What does the evidence support?</h1>
+        <p>Read a result. Explain what it shows. Decide what you would try next.</p>
+      </div>
+      <details class="instructions">
+        <summary>About this trial</summary>
+        <p>Try the first view before comparing alternatives. You can switch views and cases at any time. The views use the same saved evidence.</p>
+        <p>The example experiments are simulations. Your task is to review how Product Lab presents their results. No view has been selected as the winner.</p>
+        <p>Feedback stays in this browser when local storage is available. Download it to keep or share it. Nothing is sent to a server.</p>
+      </details>
+    </section>
+    <section class="toolbar" aria-label="Choose a result and presentation">
+      <label>Experiment case<select id="case"></select></label>
+      <fieldset id="views">
+        <legend>Presentation</legend>
+        <div class="view-options">
+          <button type="button" data-view="current" aria-pressed="false">Current report</button>
+          <button type="button" data-view="a" aria-pressed="false">Prototype A</button>
+          <button type="button" data-view="b" aria-pressed="false">Prototype B</button>
+        </div>
+      </fieldset>
+    </section>
+    <p id="view-notice" class="subtle" role="status"></p>
+    <div class="workspace">
+      <article id="report" tabindex="-1" aria-label="Experiment result"></article>
+      <aside class="feedback" aria-labelledby="feedback-title">
+        <h2 id="feedback-title">Your judgment</h2>
+        <p>Use your own words. Uncertainty and disagreement are useful findings.</p>
+        <form id="feedback-form">
+          <label for="finding">What does this result show?</label>
+          <textarea id="finding" name="finding" rows="4" required maxlength="4000"></textarea>
+          <label for="next-step">What would you try next, and why?</label>
+          <textarea id="next-step" name="next_step" rows="4" required maxlength="4000"></textarea>
+          <label for="friction">What was confusing or missing? <span>Optional</span></label>
+          <textarea id="friction" name="friction" rows="3" maxlength="4000"></textarea>
+          <label for="ease">How easy was it to make that judgment?</label>
+          <select id="ease" name="ease" required>
+            <option value="">Choose a rating</option>
+            <option value="1">1. Very difficult</option>
+            <option value="2">2. Difficult</option>
+            <option value="3">3. Mixed</option>
+            <option value="4">4. Easy</option>
+            <option value="5">5. Very easy</option>
+          </select>
+          <button type="submit" class="primary">Record this judgment</button>
+          <p id="feedback-status" class="subtle" role="status"></p>
+        </form>
+        <div class="export">
+          <p id="response-count">No judgments recorded.</p>
+          <button type="button" id="download-feedback">Download feedback</button>
+          <p class="subtle">A download includes your drafts and the versions you reviewed. It does not send them to Product Lab.</p>
+        </div>
+      </aside>
+    </div>
+    <footer>
+      <p id="provenance"></p>
+      <p>This local export reflects evidence checked when the trial was prepared. It does not verify the source files again when opened.</p>
+    </footer>
+  </main>
+  <noscript>This comparison needs JavaScript. The original reports are available in the reports folder beside this page.</noscript>
+</body>
+</html>

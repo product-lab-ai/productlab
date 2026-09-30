@@ -79,6 +79,13 @@ ruff format --check .
 
 Ruff is an optional development tool. It is not a runtime dependency.
 
+## First product trial
+
+The [experiment-review trial](trials/experiment-review/README.md) compares the
+current report with two working browser presentations. It uses verified engine
+results and collects feedback about understanding the result and choosing the
+next action. Automated checks pass; human review is pending.
+
 ## Evidence boundary
 
 Observed ranges describe these repeated runs; they are not statistical confidence

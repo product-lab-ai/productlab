@@ -11,6 +11,25 @@ The first prototype contains a portable assistant skill, product context, an
 experiment engine, a command line interface, behavioral tests, and a runnable
 simulation. Read PRODUCT.md and PRODUCT.json before changing direction.
 
+A local trial on branch `trial/experiment-review` now compares the existing
+report with two browser presentations. Read
+[the trial brief](trials/experiment-review/README.md) for its audience, hypotheses,
+task, criteria, and commands. The implementation is isolated under `trials/`.
+The engine and installed plugin behavior are unchanged.
+
+The latest prepared trial is `generated/review-trial-2/`. Each of the three views
+passed source-fact checks on three cases with two repetitions. Both alternatives
+received an inconclusive improvement result. There is no automated UX winner.
+The revised page passed 32 browser checks, and the core suite passed 34 tests.
+The local preview serves only `generated/review-trial-2/review/` on loopback port
+8765 when its server is running. Open the same folder's `index.html` directly
+if the server has stopped.
+
+Human review is pending. Do not interpret the browser check responses as user
+feedback. Reserved engineering validation is unused. Participant exports include
+the reviewed report and candidate digests. Preserve those bindings when recording
+later reviews. No trial changes have been pushed to GitHub.
+
 The user explicitly added these requirements during implementation:
 
 - Start with the audience, their problems, personas, empathy maps, and journeys.
