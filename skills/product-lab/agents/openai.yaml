@@ -1,0 +1,4 @@
+interface:
+  display_name: "Product Lab"
+  short_description: "Ground product ideas, run trials, and test lessons"
+  default_prompt: "Use $product-lab to shape this idea for its audience and build the first useful experiment."

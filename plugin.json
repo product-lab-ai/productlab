@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "product-lab",
+  "version": "0.1.0",
+  "description": "Build product experiments, protect earlier gains, and test reusable lessons."
+}
