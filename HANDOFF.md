@@ -11,7 +11,45 @@ The first prototype contains a portable assistant skill, product context, an
 experiment engine, a command line interface, behavioral tests, and a runnable
 simulation. Read PRODUCT.md and PRODUCT.json before changing direction.
 
-A local trial on branch `trial/experiment-review` now compares the existing
+The active branch is `trial/workings`. The founder chose to improve an existing
+product, Workings, rather than continue the assistant-proposed Lab Guide brief.
+Read [the Workings trial](trials/workings/README.md) for the audience, alternatives,
+evidence, commands, and remaining human review. Lab Guide is preserved on local
+branch `trial/lab-guide` at `4e06a36` and is not the selected direction.
+
+The Workings source checkout is
+`/home/eparenti/agents/repos/side-projects/workings`. It had existing local changes.
+Those were copied and verified in the isolated checkout
+`/home/eparenti/agents/repos/side-projects/workings-productlab-trial`, on branch
+`trial/productlab-learning-loop`. Commit `197b10d` records the inherited baseline.
+Commit `6a6f685` adds the actual comparison feature and its local trial notes.
+The source checkout is not edited or stashed. Preserve that distinction when
+reviewing the trial's changes.
+
+The trial improves access to evidence during an agent repair. Current Workings
+clears the earlier program and trace on edit. Two alternatives retain them: an
+inspectable previous attempt and a guided comparison of changed values and events.
+The existing lesson content, engine, and grading rules are preserved. A new run
+and prediction remain required after an edit.
+
+The initial candidates exposed a keyboard access failure in their scrollable
+retained traces. Revised builds fix that and add a direct comparison button.
+The study preserves the failed requirement reviews. The revised browser review
+passed 35 checks. Workings' 215 tests and its existing browser sweep of both agent
+lessons passed. The final interaction revision passed the targeted browser checks
+and a production build. Product Lab's 34 tests passed.
+
+Open `generated/workings-trial-1/index.html` directly from the shared host folder.
+The review links use `baseline`, `history-revised`, and `compare-revised`.
+The full iteration is recorded in `revised-results.json` and the study directory.
+All 30 declared repair runs completed. The engine's metric reference remains
+`history`, which later failed its requirement review. The review links use the
+corrected builds; metric reference selection is not product acceptance.
+The automated metric counts four available comparison facts. It does not measure
+learning, preference, or reduced effort. Founder feedback and learner results are
+pending. Reserved reuse checks remain unused. Trial changes are local only.
+
+The earlier branch `trial/experiment-review` compares the existing
 report with two browser presentations. Read
 [the trial brief](trials/experiment-review/README.md) for its audience, hypotheses,
 task, criteria, and commands. The implementation is isolated under `trials/`.
@@ -67,7 +105,8 @@ is built under `generated/current-dist/`.
 | Strict Claude plugin manifest validation | Passed |
 | Source demo and report | Passed |
 | Built package demo | Passed |
-| Live Codex or Claude product-development journey | Not run |
+| Direct skill-guided development of an existing product | Workings trial run locally |
+| Installed plugin discovery and invocation in each supported host | Not run |
 | Real user benefit or general lesson transfer | Not established |
 
 The Claude validator accepts the plugin root. Passing a skill-only directory to
@@ -97,13 +136,13 @@ attempt, human, and learning costs still need accounting before comparisons of
 economic value.
 
 Whole capabilities still deferred: autonomous experiment choice, GEPA integration,
-browser evaluation, real user study collection, evaluator calibration, and final
-product synthesis. UPSTREAM.md records the projects to build on.
+real user study collection, evaluator calibration, and final product synthesis.
+Browser evaluation exists in the local trials, not as a general engine adapter.
+UPSTREAM.md records the projects to build on.
 
 ## Next useful trial
 
-Use the skill on one real product brief through the first complete journey. Have
-the builder review the audience and intended experience, operate distinct
-prototypes, and judge whether Product Lab helped choose the next experiment.
-Record the outcome and effort. Then compare with the strongest existing workflow
-before expanding the engine or claiming a learning advantage.
+Collect the founder's response to the Workings alternatives. Use it to choose or
+revise the comparison mechanism, then test a fresh learner task. Preserve the
+existing study and source bindings. Do not call the gain in available browser
+evidence a gain in understanding or learning speed.

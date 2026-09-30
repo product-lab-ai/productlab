@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'">
+  <title>Workings product trial</title>
+  <style>
+    :root { color-scheme: light; font: 17px/1.6 system-ui, sans-serif; color: #1b303b; background: #f6f9fa; }
+    body { margin: 0; }
+    main { max-width: 850px; padding: 3rem 1.5rem; margin: auto; }
+    h1 { font-size: 2rem; line-height: 1.2; margin: 0.4rem 0 1.3rem; }
+    h2 { font-size: 1.25rem; margin-top: 2rem; }
+    p { max-width: 68ch; }
+    .brand { font-weight: bold; color: #006b54; }
+    ol { padding-left: 1.5rem; }
+    li { margin-block: 0.7rem; }
+    .versions { list-style: none; padding: 0; border-top: 1px solid #b7c7cf; }
+    .versions li { margin: 0; padding: 1.2rem 0; border-bottom: 1px solid #b7c7cf; }
+    .versions a { display: inline-block; color: #006b54; font-weight: bold; padding-block: 0.5rem; }
+    .versions p { margin: 0; }
+    :focus-visible { outline: 3px solid #006b54; outline-offset: 4px; }
+    .note { color: #465c69; font-size: 0.9rem; }
+  </style>
+</head>
+<body><main>
+  <p class="brand">Workings · Product Lab trial</p>
+  <h1>Does comparing attempts help explain a repair?</h1>
+  <p>These are three working builds of the existing Workings product.
+    Try the same agent lesson in each. The course, tasks, and grading rules are the same.</p>
+  <ul class="versions">
+    <li><a href="baseline/index.html#/courses/ai/lessons/tool-using-agent">Open current Workings</a>
+      <p>The existing experience, copied with its current local changes.</p></li>
+    <li><a href="history-revised/index.html#/courses/ai/lessons/tool-using-agent">Open the retained-attempt version</a>
+      <p>Keep the previous program and trace available while you edit and run again.</p></li>
+    <li><a href="compare-revised/index.html#/courses/ai/lessons/tool-using-agent">Open the guided-comparison version</a>
+      <p>Inspect changed blocks, recorded outcomes, and the first differing event.</p></li>
+  </ul>
+  <h2>Try one complete repair</h2>
+  <ol>
+    <li>Open the lesson and follow the working example.</li>
+    <li>Reach step 4, “Give the next call the missing information.”</li>
+    <li>Predict and run the starting program. Inspect what happened.</li>
+    <li>Change result handling, make a new prediction, and run again.</li>
+    <li>Explain which event changed and how that affected the next model call.
+      Use the comparison button when it is available.</li>
+  </ol>
+  <h2>Give feedback</h2>
+  <p>Tell the builder which version made the explanation easier, where you had to
+    stop and think, and whether the comparison revealed too much or added clutter.</p>
+  <p class="note">This review can guide the next design choice. Repeating the same task
+    also adds practice, so this comparison alone cannot establish a learning gain.
+    A fresh learner task remains separate.</p>
+</main></body>
+</html>

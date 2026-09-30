@@ -1,0 +1,228 @@
+{
+  "name": "Workings: compare agent attempts",
+  "purpose": "Help a learner inspect what changed when they repair an agent loop.",
+  "personas": [
+    {
+      "id": "learner",
+      "name": "A new agent builder",
+      "context": "Uses AI assistants and can read simple loops and objects; has not built an agent loop.",
+      "needs": [
+        "Connect a code change to an observed result",
+        "Inspect earlier evidence without recreating a run",
+        "Attempt another task without a supplied repair"
+      ],
+      "basis": "hypothesis",
+      "source": "Existing Workings brief and accepted product direction. Learning effort is unmeasured.",
+      "empathy": {
+        "says": [
+          "Hypothesis: what changed after my repair?"
+        ],
+        "thinks": [
+          "Hypothesis: I need to compare the two runs to explain the effect"
+        ],
+        "does": [
+          "The existing journey asks the learner to predict, edit, run, inspect, and repeat"
+        ],
+        "feels": [
+          "Hypothesis: remembering earlier trace details adds effort"
+        ]
+      }
+    }
+  ],
+  "journeys": [
+    {
+      "id": "repair-and-explain",
+      "persona": "learner",
+      "trigger": "A program fails to use a tool result or return an answer.",
+      "steps": [
+        {
+          "id": "inspect",
+          "action": "Run and inspect the original loop",
+          "pain": "Several operations can explain a failed result",
+          "need": "Observed events from the actual program"
+        },
+        {
+          "id": "change",
+          "action": "Change a block and make a prediction",
+          "pain": "The previous trace disappears in the current player",
+          "need": "Retain earlier evidence without treating it as current"
+        },
+        {
+          "id": "compare",
+          "action": "Run again and explain the observed difference",
+          "pain": "A successful result alone does not explain the cause",
+          "need": "Correct before-and-after evidence for the same case"
+        },
+        {
+          "id": "transfer",
+          "action": "Try a fresh problem without a supplied repair",
+          "pain": "Following feedback may not produce independent understanding",
+          "need": "A separate learner observation"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "explain-a-change",
+      "journey": "repair-and-explain",
+      "description": "The learner can identify the change, cite before-and-after events, and explain the effect. Automated checks measure only whether the needed evidence is available."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "functionality",
+      "intent": "Make observed evidence available during the repair",
+      "priority": "primary",
+      "tradeoff": "Retain a complete same-case attempt before general history",
+      "boundary": "Only actual completed runs can supply comparison evidence",
+      "review": "Compare the displayed earlier program and events with the original run"
+    },
+    {
+      "id": "ux",
+      "intent": "Reduce the effort of finding a meaningful difference",
+      "priority": "primary",
+      "tradeoff": "Compare self-directed inspection with an explicit difference summary",
+      "boundary": "Preserve prediction, learner control, and access to full evidence",
+      "review": "Observe explanation quality, effort, wrong turns, and hints"
+    },
+    {
+      "id": "craft",
+      "intent": "Fit comparison into the existing cabinet and lesson",
+      "priority": "primary",
+      "tradeoff": "Use space for the current decision and disclose longer traces",
+      "boundary": "Keep both themes, narrow layouts, and keyboard access",
+      "review": "Operate the whole lesson in its intended medium"
+    },
+    {
+      "id": "performance",
+      "intent": "Keep the local lesson responsive",
+      "priority": "supporting",
+      "tradeoff": "Keep one earlier completed attempt per case",
+      "boundary": "No remote model calls or extra simulation runs for the comparison",
+      "review": "Check the actual browser journey and bundle size"
+    },
+    {
+      "id": "maintainability",
+      "intent": "Separate recorded comparisons from lesson grading",
+      "priority": "supporting",
+      "tradeoff": "Reuse the existing typed run records",
+      "boundary": "Do not change the engine or accepted lesson content",
+      "review": "Test same-case identity, snapshots, and invalidation"
+    },
+    {
+      "id": "innovation",
+      "intent": "Compare distinct ways of inspecting a repair",
+      "priority": "primary",
+      "tradeoff": "Retained history and guided differences serve the same task",
+      "boundary": "Novel presentation cannot replace correct evidence",
+      "review": "Compare against current Workings and each alternative"
+    },
+    {
+      "id": "cost",
+      "intent": "Reduce learner effort without adding provider cost",
+      "priority": "supporting",
+      "tradeoff": "Retain local evidence before adding services",
+      "boundary": "Unknown authoring or learning costs remain unknown",
+      "review": "Record evaluation time separately from human and authoring effort"
+    },
+    {
+      "id": "portability",
+      "intent": "Make the actual trial usable from the shared project folder",
+      "priority": "supporting",
+      "tradeoff": "Package a standalone review build",
+      "boundary": "Do not assume the host can reach container loopback",
+      "review": "Operate the same compiled app from a local file"
+    }
+  ],
+  "essentials": [
+    {
+      "id": "secure-execution",
+      "category": "security",
+      "requirement": "Keep the bounded local agent simulation and render only recorded data",
+      "verification": "Inspect the changed source and browser requests",
+      "applies": true,
+      "reason": "Required for the existing Workings repair journey."
+    },
+    {
+      "id": "private-evidence",
+      "category": "privacy",
+      "requirement": "Make no external requests during the learner journey",
+      "verification": "Observe actual browser requests; do not add analytics",
+      "applies": true,
+      "reason": "Required for the existing Workings repair journey."
+    },
+    {
+      "id": "preserved-evidence",
+      "category": "data_integrity",
+      "requirement": "Retain an independent earlier snapshot and compare the same case and engine",
+      "verification": "Test source mutation, changed scenarios, resets, and multiple edits",
+      "applies": true,
+      "reason": "Required for the existing Workings repair journey."
+    },
+    {
+      "id": "valid-decisions",
+      "category": "correctness",
+      "requirement": "Earlier runs cannot pass an edited program or remove its prediction requirement",
+      "verification": "Edit after a completed run and check the actual navigation and grader",
+      "applies": true,
+      "reason": "Required for the existing Workings repair journey."
+    },
+    {
+      "id": "accessible-workflow",
+      "category": "accessibility",
+      "requirement": "Preserve keyboard, readable themes, and narrow screen access",
+      "verification": "Run browser interaction and accessibility checks",
+      "applies": true,
+      "reason": "Required for the existing Workings repair journey."
+    },
+    {
+      "id": "recoverable-runs",
+      "category": "recovery",
+      "requirement": "Stop and reset without treating partial runs as completed comparisons",
+      "verification": "Test Step, Stop, Reset, and navigation",
+      "applies": true,
+      "reason": "Required for the existing Workings repair journey."
+    },
+    {
+      "id": "honest-results",
+      "category": "honesty",
+      "requirement": "Describe recorded changes without claiming learner understanding or one cause from several edits",
+      "verification": "Inspect single-change, multi-change, and comparison reports",
+      "applies": true,
+      "reason": "Required for the existing Workings repair journey."
+    },
+    {
+      "id": "bounded-actions",
+      "category": "safety",
+      "requirement": "Use the existing local exercise scope and execution limit",
+      "verification": "Keep accepted course data and engine behavior unchanged",
+      "applies": true,
+      "reason": "Required for the existing Workings repair journey."
+    }
+  ],
+  "craft": {
+    "intent": "Connect a learner edit with the evidence needed to understand it.",
+    "audience_effect": "The learner can inspect both attempts without losing their place.",
+    "distinctive_character": "Use actual program and event differences inside the existing cabinet.",
+    "anti_goals": [
+      "A separate dashboard",
+      "Unrun answers or suggested repairs in the independent challenge",
+      "A new visual identity",
+      "Test scores presented as learning gains"
+    ],
+    "review_prompts": [
+      "Is the before-and-after distinction clear?",
+      "Is the evidence correct and reachable?",
+      "Does the comparison help explain a change without giving an unearned answer?",
+      "Does the whole lesson remain coherent?"
+    ]
+  },
+  "non_goals": [
+    "New course content",
+    "Changed grading rules",
+    "A new teaching platform",
+    "Measured learning gains without learners",
+    "Publishing or merging the trial"
+  ]
+}

@@ -36,7 +36,8 @@ workload families do not establish real-world product improvement.
 
 The assistant shapes and builds the actual product. The engine executes its
 trusted local evaluators. It does not yet choose experiments autonomously,
-calibrate simulated users against people, or integrate GEPA or browser automation.
+calibrate simulated users against people, or integrate GEPA. Local product trials
+can supply their own browser evaluators.
 
 ## Use through an assistant
 
@@ -79,7 +80,18 @@ ruff format --check .
 
 Ruff is an optional development tool. It is not a runtime dependency.
 
-## First product trial
+## Current product trial
+
+The [Workings trial](trials/workings/README.md) applies Product Lab to an existing
+teaching product. It compares the current repair experience with two ways to
+retain and inspect earlier attempts. The trial uses real browser journeys,
+preserves the original working state, records an accessibility failure, and
+evaluates revised candidates. Human learning benefit remains unmeasured.
+
+The local review is `generated/workings-trial-1/index.html`. Open that shared file
+in the host browser. Its links open complete Workings builds without a server.
+
+## Earlier report trial
 
 The [experiment-review trial](trials/experiment-review/README.md) compares the
 current report with two working browser presentations. It uses verified engine
