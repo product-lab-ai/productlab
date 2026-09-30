@@ -1,0 +1,60 @@
+{
+  "name": "Recovery Advisor",
+  "purpose": "Help an operator understand a failed job and choose a safe recovery action.",
+  "personas": [
+    {
+      "id": "operator",
+      "name": "An operator responding to a failed job",
+      "context": "An interrupted workflow needs attention. The operator has limited time and must avoid making the failure worse.",
+      "needs": ["Understand what failed", "Choose an appropriate remedy", "Know whether recovery worked"],
+      "basis": "hypothesis",
+      "source": "Invented scenario for the Product Lab mechanics demo. No user research has been conducted.",
+      "empathy": {
+        "says": ["Hypothesis: tell me what failed and what I can safely do next."],
+        "thinks": ["Hypothesis: a failed retry could make the incident longer."],
+        "does": ["Hypothesis: checks the failure reason before selecting a remedy."],
+        "feels": ["Hypothesis: time pressure and uncertainty about side effects."]
+      }
+    }
+  ],
+  "journeys": [
+    {
+      "id": "recover-job",
+      "persona": "operator",
+      "trigger": "A job reports a failure.",
+      "steps": [
+        {"id": "understand", "action": "Read the failure reason", "pain": "Generic failures hide the remedy", "need": "A specific cause and its limits"},
+        {"id": "choose", "action": "Choose a recovery action", "pain": "Repeated guesses waste time", "need": "A remedy that matches the cause"},
+        {"id": "verify", "action": "Check the recovery result", "pain": "A submitted command may still fail", "need": "Evidence that the job recovered safely"}
+      ]
+    }
+  ],
+  "outcomes": [
+    {"id": "recover-correctly", "journey": "recover-job", "description": "The job recovers using actions suited to the failure reason."},
+    {"id": "retain-control", "journey": "recover-job", "description": "The operator avoids a forced restart that may lose work."}
+  ],
+  "dimensions": [
+    {"id": "ux", "intent": "Make the remedy easy to understand and verify", "priority": "primary", "tradeoff": "Allow a longer explanation when uncertainty matters", "boundary": "Do not hide failure or claim recovery before verification", "review": "Observe an operator identify the next action and explain its consequence"},
+    {"id": "performance", "intent": "Give a useful answer without delaying incident work", "priority": "supporting", "tradeoff": "Spend time diagnosing when it prevents a wrong retry", "boundary": "Do not skip required checks", "review": "Measure time to a correct recovery decision"},
+    {"id": "maintainability", "intent": "Keep remedies understandable and replaceable", "priority": "supporting", "tradeoff": "Use explicit rules before a general framework", "boundary": "A new remedy must not break previously supported failures", "review": "Have a maintainer add and remove a remedy"},
+    {"id": "innovation", "intent": "Find a useful way to explain failure-specific remedies", "priority": "supporting", "tradeoff": "Prefer familiar interactions unless an alternative improves recovery", "boundary": "Novelty must preserve operator understanding and control", "review": "Compare distinct interactions through the same recovery journey"}
+  ],
+  "essentials": [
+    {"id": "authorized-actions", "category": "security", "requirement": "Recovery actions respect the operator's permissions", "verification": "Test authorization boundaries before connecting real systems", "applies": true, "reason": "The demo does not execute real recovery actions; a real adapter will need this review"},
+    {"id": "private-incidents", "category": "privacy", "requirement": "Do not disclose credentials or private incident contents", "verification": "Review collected fields, storage, and model data flows", "applies": true, "reason": "Real incident evidence may contain private data"},
+    {"id": "preserve-work", "category": "data_integrity", "requirement": "Recovery must not erase unrelated work", "verification": "Exercise stateful recovery and rollback cases", "applies": true, "reason": "The toy evaluator has no persistent workload data and cannot prove this"},
+    {"id": "faithful-result", "category": "correctness", "requirement": "Reported recovery matches the simulated job result", "verification": "Check the selected actions against the fixture's recovery rule", "applies": true, "reason": "The demo can check its own bounded simulation"},
+    {"id": "accessible-actions", "category": "accessibility", "requirement": "The presented recovery flow is usable with keyboard and assistive technology", "verification": "Review the actual interface with representative tasks", "applies": true, "reason": "A recovery policy alone does not demonstrate an accessible interface"},
+    {"id": "recoverable-failure", "category": "recovery", "requirement": "Interrupted attempts retain their evidence and offer a safe next action", "verification": "Inject interruption and retry failures", "applies": true, "reason": "Incident response includes partial failures"},
+    {"id": "honest-claims", "category": "honesty", "requirement": "Simulation results are labeled and uncertainty remains visible", "verification": "Review the report and its evidence links", "applies": true, "reason": "Fixture success does not establish operator usefulness"},
+    {"id": "safe-remedies", "category": "safety", "requirement": "Never recommend force restarting in this simulation", "verification": "Reject any evaluated action list containing force_restart", "applies": true, "reason": "Force restarting is defined as unsafe in this fixture"}
+  ],
+  "craft": {
+    "intent": "A calm, precise recovery experience that makes cause, action, and result easy to follow.",
+    "audience_effect": "The operator understands the next action and its limits without searching through a report.",
+    "distinctive_character": "Connect each remedy to the observed failure, with an explicit explanation of why it fits.",
+    "anti_goals": ["A generic wall of incident data", "Decorative urgency", "A confident recommendation with no evidence"],
+    "review_prompts": ["Can an operator identify the cause and next action immediately?", "Does the complete journey feel coherent under time pressure?", "Does the distinctive interaction help recovery?"]
+  },
+  "non_goals": ["Production job execution", "Proof of real user preference", "A finished visual interface"]
+}

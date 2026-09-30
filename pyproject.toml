@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "product-lab"
+version = "0.1.0"
+description = "Run product experiments and test whether lessons transfer."
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+product-lab = "product_lab.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["skills/product-lab/scripts"]
+namespaces = false
+
+[tool.setuptools.package-data]
+product_lab = ["assets/recovery/*.json", "assets/recovery/baseline/*.json", "assets/recovery/evaluator/*.py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

@@ -1,0 +1,94 @@
+{
+  "name": "Product Lab",
+  "purpose": "Help a product builder turn a loose idea into a coherent, distinctive product for a defined audience, using experiments whose results can be inspected and reused.",
+  "personas": [
+    {
+      "id": "builder",
+      "name": "A product builder working with a coding assistant",
+      "context": "Has a rough idea and domain judgment. Can generate software quickly, but needs help deciding what to build, why it matters, and whether an iteration improved it.",
+      "needs": ["A clear audience and problem from the start", "Distinct approaches with visible consequences", "Fast working prototypes", "Useful feedback grounded in real tasks", "Continuity across iterations", "A final product with coherent execution and character"],
+      "basis": "hypothesis",
+      "source": "Initial persona based on this project's founding conversation. The founder's stated needs are evidence; the broader audience and empathy map remain hypotheses.",
+      "empathy": {
+        "says": ["Founder request: know who we are building for and what problems they need solved", "Founder request: balance quality while keeping security as a requirement"],
+        "thinks": ["Hypothesis: generated code is plentiful, but confidence in product direction is scarce", "Hypothesis: a measured gain may hide a worse experience"],
+        "does": ["Uses an assistant to research alternatives, build prototypes, and inspect results", "Supplies product intent and reacts to concrete options"],
+        "feels": ["Hypothesis: excited by ambitious ideas", "Hypothesis: frustrated when a generic result ignores the original intent"]
+      }
+    },
+    {
+      "id": "domain-partner",
+      "name": "A product owner or domain expert reviewing a proposed experience",
+      "context": "Understands the audience and workflow but should not have to inspect model traces or source code to judge the product.",
+      "needs": ["Operate a representative journey", "Understand the choices and unresolved assumptions", "Give feedback that survives later changes"],
+      "basis": "hypothesis",
+      "source": "Proposed supporting persona. No interviews or field observations yet.",
+      "empathy": {
+        "says": ["Hypothesis: show me how this helps the person doing the job"],
+        "thinks": ["Hypothesis: a polished demo may omit difficult cases"],
+        "does": ["Hypothesis: tries real tasks and compares behavior with current work"],
+        "feels": ["Hypothesis: needs confidence that feedback changes the product"]
+      }
+    }
+  ],
+  "journeys": [
+    {
+      "id": "idea-to-tested-direction",
+      "persona": "builder",
+      "trigger": "The builder has a loose product idea and wants to explore it with an assistant.",
+      "steps": [
+        {"id": "ground", "action": "Describe the audience, problem, and desired experience", "pain": "The assistant may start coding before understanding the purpose", "need": "A shared product picture with explicit assumptions"},
+        {"id": "shape", "action": "Compare distinct product mechanisms and their tradeoffs", "pain": "Several variants may share the same weak premise", "need": "Alternatives that change how the audience solves the problem"},
+        {"id": "try", "action": "Build and operate the smallest useful prototypes", "pain": "A document or screenshot may conceal a broken journey", "need": "An experience that tests the uncertain decision"},
+        {"id": "judge", "action": "Compare evidence, user response, and craft", "pain": "An aggregate score may reward the wrong outcome", "need": "A trace from each judgment to the audience and intended result"},
+        {"id": "learn", "action": "Retain scoped lessons and test their reuse", "pain": "A persuasive explanation may become an unsupported rule", "need": "Later results that support or challenge the lesson"},
+        {"id": "synthesize", "action": "Build and review a coherent final experience", "pain": "Combining winning fragments may create an incoherent product", "need": "A complete journey reviewed in its actual medium"}
+      ]
+    },
+    {
+      "id": "review-an-experience",
+      "persona": "domain-partner",
+      "trigger": "A prototype is ready for domain and audience feedback.",
+      "steps": [
+        {"id": "orient", "action": "See who the prototype serves and what it is testing", "pain": "A demo can steer the reviewer toward the builder's favorite answer", "need": "A clear task and neutral comparison"},
+        {"id": "operate", "action": "Attempt the intended task", "pain": "Important behavior may be hidden behind a prepared path", "need": "A working experience including relevant failure states"},
+        {"id": "respond", "action": "Explain what helped, confused, or disappointed", "pain": "Feedback may disappear into a later summary", "need": "Feedback linked to the exact candidate and design decision"}
+      ]
+    }
+  ],
+  "outcomes": [
+    {"id": "clear-direction", "journey": "idea-to-tested-direction", "description": "The builder can explain the audience, problem, selected mechanism, and reasons for choosing it."},
+    {"id": "useful-iteration", "journey": "idea-to-tested-direction", "description": "An iteration improves the intended journey while preserving agreed requirements."},
+    {"id": "earned-learning", "journey": "idea-to-tested-direction", "description": "A scoped lesson improves later decisions enough to justify its total cost."},
+    {"id": "coherent-result", "journey": "idea-to-tested-direction", "description": "The finished product communicates the intended meaning and supports the audience's task through one coherent experience."},
+    {"id": "feedback-used", "journey": "review-an-experience", "description": "The reviewer can see how their feedback affected the product and which concerns remain."}
+  ],
+  "dimensions": [
+    {"id": "functionality", "intent": "Solve the selected audience's important problem", "priority": "primary", "tradeoff": "Prefer a complete small journey over broad feature coverage", "boundary": "Core promised behavior must remain correct", "review": "Ask a representative user to finish the selected task"},
+    {"id": "ux", "intent": "Make each product decision understandable with little setup work", "priority": "primary", "tradeoff": "Expose detail when it changes the user's decision", "boundary": "Keep uncertainty, errors, and user control visible", "review": "Observe whether a builder knows the next useful action without reading the engine source"},
+    {"id": "craft", "intent": "Produce precise, coherent, beautiful work suited to its medium", "priority": "primary", "tradeoff": "Spend more effort on the interactions and content that define the experience", "boundary": "Finish must support meaning, usability, and accessibility", "review": "Review complete journeys in their actual medium, including content, hierarchy, pacing, and failure states"},
+    {"id": "performance", "intent": "Return useful feedback quickly enough to sustain experimentation", "priority": "supporting", "tradeoff": "Run expensive checks when their result can change the decision", "boundary": "Never omit required evidence to shorten a run", "review": "Measure time to a useful decision, including user waiting and setup"},
+    {"id": "maintainability", "intent": "Keep evidence rules understandable and adapters replaceable", "priority": "supporting", "tradeoff": "Begin with a small explicit engine before a general integration framework", "boundary": "Behavioral checks and evidence formats must remain understandable", "review": "Change an evaluator and diagnose a failed run using the documented interface"},
+    {"id": "innovation", "intent": "Find useful mechanisms and a distinctive experience beyond generic assistant output", "priority": "primary", "tradeoff": "Explore a different mechanism when it could materially help the audience", "boundary": "Originality does not excuse confusion or unmet requirements", "review": "Compare materially different approaches against the same audience and journey"},
+    {"id": "cost", "intent": "Spend less total effort reaching a supported product direction", "priority": "supporting", "tradeoff": "Spend on learning when its later value can be tested", "boundary": "Count failed experiments, learning, human time, and model use", "review": "Compare complete study costs against the strongest existing workflow"},
+    {"id": "portability", "intent": "Work through the assistant and tools the builder already uses", "priority": "supporting", "tradeoff": "Support a small number of complete paths first", "boundary": "State untested host compatibility explicitly", "review": "Run the same complete journey in each supported host"}
+  ],
+  "essentials": [
+    {"id": "secure-execution", "category": "security", "requirement": "Use authorized resources, preserve secrets, and enforce the execution boundary", "verification": "Review runner permissions, inputs, dependency handling, and hostile execution cases before accepting untrusted evaluators", "applies": true, "reason": "The first engine runs trusted local evaluators with the caller's permissions; untrusted execution is outside its supported scope"},
+    {"id": "private-evidence", "category": "privacy", "requirement": "Keep private research and product data within the chosen data boundary", "verification": "Inspect persistence, exports, retention, and any future model or connector data flows", "applies": true, "reason": "Product evidence can contain private or sensitive material"},
+    {"id": "preserved-evidence", "category": "data_integrity", "requirement": "Do not overwrite earlier evidence or silently reuse changed artifacts", "verification": "Test snapshot changes, interrupted runs, restart, and evidence modification", "applies": true, "reason": "Later judgments depend on earlier records being intact"},
+    {"id": "valid-decisions", "category": "correctness", "requirement": "Missing, failed, or incomparable evidence cannot become a successful decision", "verification": "Run cases with failed gates, missing metrics, cumulative loss, and reused validation tasks", "applies": true, "reason": "An incorrect decision defeats the product's purpose"},
+    {"id": "accessible-workflow", "category": "accessibility", "requirement": "Core work is operable without color, a mouse, or inaccessible custom controls", "verification": "Review terminal output and the host workflow with keyboard and assistive technology", "applies": true, "reason": "The chosen medium is an assistant conversation with a command line engine"},
+    {"id": "recoverable-runs", "category": "recovery", "requirement": "Failures retain evidence and have a clear recovery path", "verification": "Inject timeouts, process interruption, invalid output, and restart", "applies": true, "reason": "Long experiment sessions will be interrupted"},
+    {"id": "honest-results", "category": "honesty", "requirement": "Distinguish hypotheses, simulations, observations, measured improvement, and human product acceptance", "verification": "Review the full reporting path and test that unreviewed quality remains pending", "applies": true, "reason": "Confidence must match the available evidence"},
+    {"id": "bounded-actions", "category": "safety", "requirement": "Experiments stay within the user's authorized scope and resource limits", "verification": "Review command execution, timeouts, and the assistant skill's action boundaries", "applies": true, "reason": "Prototype exploration does not authorize deployment, outreach, or uncontrolled spending"}
+  ],
+  "craft": {
+    "intent": "A thoughtful product conversation that steadily makes the idea more concrete, distinctive, and testable.",
+    "audience_effect": "The builder sees the whole product, understands the important choices, and stays engaged with the work.",
+    "distinctive_character": "Show the audience, intended experience, competing approaches, and evidence together at each consequential decision.",
+    "anti_goals": ["A generic template factory", "A metrics dashboard detached from user needs", "Long questionnaires before showing useful work", "Decorative novelty", "Review paperwork mistaken for better products"],
+    "review_prompts": ["Does each step preserve the original product intent?", "Does the assistant bring useful taste and materially different options?", "Is the proposed experience coherent, clear, and distinctive for this audience?", "Can the builder inspect why a recommendation changed?", "Does the process improve the product enough to justify its effort?"]
+  },
+  "non_goals": ["Claiming the best possible product", "Replacing real users with simulated personas", "Autonomous product acceptance", "Training a new foundation model", "A production execution sandbox in the first prototype"]
+}

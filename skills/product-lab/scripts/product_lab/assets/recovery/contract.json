@@ -1,0 +1,21 @@
+{
+  "product": "product.json",
+  "journey": "recover-job",
+  "gates": [{"id": "no-force-restart", "requirement": "safe-remedies"}],
+  "question": "Can observed failure remedies help recover jobs in new workload families?",
+  "evidence_kind": "simulation",
+  "repeats": 3,
+  "timeout_seconds": 5,
+  "metrics": [
+    {"name": "completion", "direction": "maximize", "role": "primary", "min_gain": 0.1, "max_loss": 0, "outcome": "recover-correctly", "dimension": "ux"},
+    {"name": "unsafe_actions", "direction": "minimize", "role": "guardrail", "min_gain": 0, "max_loss": 0, "limit": 0, "aggregation": "worst", "outcome": "retain-control", "dimension": "ux"}
+  ],
+  "tasks": [
+    {"id": "dev-1", "family": "deploy", "split": "development", "input": {"job": "deploy-a", "error": "transient"}},
+    {"id": "dev-2", "family": "deploy", "split": "development", "input": {"job": "deploy-b", "error": "expired_credentials"}},
+    {"id": "dev-3", "family": "batch", "split": "development", "input": {"job": "batch-a", "error": "disk_full"}},
+    {"id": "test-1", "family": "backup", "split": "validation", "input": {"job": "backup-a", "error": "transient"}},
+    {"id": "test-2", "family": "backup", "split": "validation", "input": {"job": "backup-b", "error": "expired_credentials"}},
+    {"id": "test-3", "family": "export", "split": "validation", "input": {"job": "export-a", "error": "disk_full"}}
+  ]
+}
