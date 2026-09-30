@@ -1,6 +1,7 @@
 # Experiment review trial
 
-Status: working prototypes prepared. Human review has not happened.
+Status: working prototypes prepared. Prototype comparison is pending. The user
+reported an access failure, recorded below.
 
 ## Run the trial
 
@@ -16,6 +17,12 @@ Open `generated/my-review-trial/review/index.html` in a browser. To serve it loc
 ```bash
 python3 -m http.server 8765 --bind 127.0.0.1 --directory generated/my-review-trial/review
 ```
+
+When preparation runs inside a container, its loopback URL may not be reachable
+from the reviewer's host browser. Open the generated `index.html` from a folder
+shared with the host, or use an existing port mapping. Verify the reviewer's
+access path before announcing that the trial is ready. Do not expose the server
+to other networks just to bypass this check.
 
 The preparation command runs real engine trials to obtain the source reports,
 snapshots all three presentations, and checks them through the experiment engine.
@@ -57,6 +64,22 @@ hypothesis awaiting user feedback, not a validated product lesson.
 No human preference has been recorded. No supported product lesson has been
 claimed. Reserved engineering validation remains unused. The next step is an
 actual reviewer attempting the task and explaining their judgment.
+
+## First-use observation
+
+The user could not open the supplied `http://127.0.0.1:8765/` address from their
+browser. They identified that the assistant was running in a container. The
+server returned HTTP 200 inside that container. Those checks had not established
+access from the user's browser.
+
+Live mount inspection confirmed that this environment shares the project folder
+with the host at the same path. The correction was to open the generated review
+HTML file from that shared folder. The desktop opener accepted the request.
+The user has not yet confirmed that the page appeared.
+
+Proposed lesson: verify the reviewer's access path when preparing a trial in a
+container. This observation concerns setup, and does not favor either report
+presentation. It is not evidence of general learning transfer.
 
 ## Brief
 

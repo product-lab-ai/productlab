@@ -22,8 +22,11 @@ passed source-fact checks on three cases with two repetitions. Both alternatives
 received an inconclusive improvement result. There is no automated UX winner.
 The revised page passed 32 browser checks, and the core suite passed 34 tests.
 The local preview serves only `generated/review-trial-2/review/` on loopback port
-8765 when its server is running. Open the same folder's `index.html` directly
-if the server has stopped.
+8765 inside the development container. The user reported that this URL did not
+work from their browser. The project folder is shared with the host at the same
+path, so the corrected access path is the folder's `index.html` opened directly
+in the host browser. The desktop opener accepted that request; visible host
+access still needs confirmation. The trial brief records this first-use failure.
 
 Human review is pending. Do not interpret the browser check responses as user
 feedback. Reserved engineering validation is unused. Participant exports include
