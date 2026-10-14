@@ -1,16 +1,16 @@
 {
   "name": "Product Lab",
-  "purpose": "Help a product builder turn a loose idea into a coherent, distinctive product for a defined audience, using experiments whose results can be inspected and reused.",
+  "purpose": "Help a builder improve a product as a whole, starting from an idea, prototype, or existing product, investigating customer problems, building and testing useful alternatives, and retaining experience for later decisions.",
   "personas": [
     {
       "id": "builder",
       "name": "A product builder working with a coding assistant",
-      "context": "Has a rough idea and domain judgment. Can generate software quickly, but needs help deciding what to build, why it matters, and whether an iteration improved it.",
-      "needs": ["A clear audience and problem from the start", "Distinct approaches with visible consequences", "Fast working prototypes", "Useful feedback grounded in real tasks", "Continuity across iterations", "A final product with coherent execution and character"],
+      "context": "Has a rough idea, prototype, or existing product and domain judgment. Can generate software quickly, but needs help inspecting the whole product, choosing useful improvements, and judging the result.",
+      "needs": ["A clear audience and problem from the start", "A whole-product review grounded in actual behavior", "Distinct approaches with visible consequences", "Fast working prototypes", "Useful feedback grounded in real tasks", "Continuity across iterations", "A final product with coherent execution and character"],
       "basis": "hypothesis",
-      "source": "Initial persona based on this project's founding conversation. The founder's stated needs are evidence; the broader audience and empathy map remain hypotheses.",
+      "source": "Initial persona based on the founding conversation and the founder's October 7, 2026 clarification: start with a prototype or existing product and improve it from several perspectives. The broader audience and empathy map remain hypotheses.",
       "empathy": {
-        "says": ["Founder request: know who we are building for and what problems they need solved", "Founder request: balance quality while keeping security as a requirement"],
+        "says": ["Founder request: know who we are building for and what problems they need solved", "Founder request: balance quality while keeping security as a requirement", "Founder request: inspect a prototype or existing product from all angles and develop useful improvements for its customers"],
         "thinks": ["Hypothesis: generated code is plentiful, but confidence in product direction is scarce", "Hypothesis: a measured gain may hide a worse experience"],
         "does": ["Uses an assistant to research alternatives, build prototypes, and inspect results", "Supplies product intent and reacts to concrete options"],
         "feels": ["Hypothesis: excited by ambitious ideas", "Hypothesis: frustrated when a generic result ignores the original intent"]
@@ -35,14 +35,16 @@
     {
       "id": "idea-to-tested-direction",
       "persona": "builder",
-      "trigger": "The builder has a loose product idea and wants to explore it with an assistant.",
+      "trigger": "The builder brings a loose idea, prototype, or existing product and wants to develop useful improvements with an assistant.",
       "steps": [
-        {"id": "ground", "action": "Describe the audience, problem, and desired experience", "pain": "The assistant may start coding before understanding the purpose", "need": "A shared product picture with explicit assumptions"},
+        {"id": "ground", "action": "Describe the audience, problem, current product, and desired experience", "pain": "The assistant may start coding before understanding the purpose", "need": "A shared product picture with explicit assumptions"},
+        {"id": "inspect", "action": "Operate the product and review customer value, learning where relevant, UX, craft, accessibility, performance, security, reliability, and maintainability", "pain": "A narrow review can optimize one feature while missing the customer's main problem", "need": "A whole-product diagnosis with sources and clear uncertainty"},
+        {"id": "prioritize", "action": "Challenge assumptions and choose a worthwhile improvement opportunity", "pain": "A list of plausible features does not explain which change deserves an experiment", "need": "A reasoned choice tied to a customer outcome, competing explanations, effort, and risk"},
         {"id": "shape", "action": "Compare distinct product mechanisms and their tradeoffs", "pain": "Several variants may share the same weak premise", "need": "Alternatives that change how the audience solves the problem"},
         {"id": "try", "action": "Build and operate the smallest useful prototypes", "pain": "A document or screenshot may conceal a broken journey", "need": "An experience that tests the uncertain decision"},
         {"id": "judge", "action": "Compare evidence, user response, and craft", "pain": "An aggregate score may reward the wrong outcome", "need": "A trace from each judgment to the audience and intended result"},
-        {"id": "learn", "action": "Retain scoped lessons and test their reuse", "pain": "A persuasive explanation may become an unsupported rule", "need": "Later results that support or challenge the lesson"},
-        {"id": "synthesize", "action": "Build and review a coherent final experience", "pain": "Combining winning fragments may create an incoherent product", "need": "A complete journey reviewed in its actual medium"}
+        {"id": "synthesize", "action": "Build and review a coherent final experience", "pain": "Combining winning fragments may create an incoherent product", "need": "A complete journey reviewed in its actual medium"},
+        {"id": "learn", "action": "Retain decisions, scoped lessons, and counterexamples throughout the work, then test their reuse", "pain": "A persuasive explanation may become an unsupported rule", "need": "Later results that support or challenge the lesson"}
       ]
     },
     {

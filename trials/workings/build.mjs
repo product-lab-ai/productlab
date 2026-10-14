@@ -5,8 +5,8 @@ import { pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
 
 const [sourceArg, outputArg, mode = "compare"] = process.argv.slice(2);
-if (!sourceArg || !outputArg || !["baseline", "history", "compare"].includes(mode)) {
-  throw new Error("Usage: node build.mjs <Workings checkout> <new output folder> [baseline|history|compare]");
+if (!sourceArg || !outputArg || !["baseline", "history", "compare", "bookmark", "draft"].includes(mode)) {
+  throw new Error("Usage: node build.mjs <Workings checkout> <new output folder> [baseline|history|compare|bookmark|draft]");
 }
 const source = resolve(sourceArg);
 const output = resolve(outputArg);
@@ -16,7 +16,10 @@ const result = await build({
   root: source,
   configFile: join(source, "vite.config.ts"),
   base: "./",
-  define: { "import.meta.env.VITE_RUN_COMPARISON": JSON.stringify(mode) },
+  define: {
+    "import.meta.env.VITE_RUN_COMPARISON": JSON.stringify(mode),
+    "import.meta.env.VITE_LESSON_RECOVERY": JSON.stringify(mode),
+  },
   build: {
     write: false, assetsInlineLimit: 100000000, cssCodeSplit: false,
     modulePreload: false,

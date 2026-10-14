@@ -1,5 +1,9 @@
 # Workings product trial
 
+The broader 2026-10-07 cycle is in the
+[product review](product-review/README.md) and [recovery experiment](recovery/README.md).
+This document preserves the earlier attempt-comparison trial.
+
 The founder chose an existing product for the broader Product Lab trial on
 2026-09-30. Workings is the product under test. The earlier Lab Guide experiment
 is parked on its own local branch.

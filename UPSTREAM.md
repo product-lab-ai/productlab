@@ -33,3 +33,41 @@ Those bounds still do not provide statistical confidence or prove human preferen
 GEPA's gskill already tests learned coding instructions on reserved tasks.
 The open question here is whether a broader product process can improve actual
 user outcomes at comparable total cost.
+
+## Gaia: reference for ideas
+
+On 2026-10-07, the founder chose to treat Red Hat's Project Gaia as prior art
+and a reference for ideas. It is not a Product Lab dependency or integration
+candidate. Product Lab keeps its own experiment and evidence contracts.
+
+The inspected local checkout was `/home/eparenti/agents/repos/gaia`, revision
+`387e394`. This is the internal Red Hat project, not the unrelated public
+assistant with the same name.
+
+Ideas worth considering in an independent Product Lab design:
+
+- Compare the structure of observations across studies while retaining their
+  audience, task, conditions, and source evidence.
+- Keep a proposed connection as a hypothesis until a fresh experiment tests it.
+- Retain contradictions and limits on reuse alongside supporting observations.
+- Revisit a lesson when its context changes or later evidence disagrees.
+
+Gaia's `gaia/soma/modal_layer/cross_domain_binder.py:analyze_patterns` compares
+explicitly structured patterns across domains. It keeps source references,
+checks for shared evidence IDs, and returns candidates marked `hypothesis`.
+This provides a useful design reference. Different evidence IDs alone do not
+establish independent samples or transferable product meaning.
+
+Its raw scanner and promotion path are not a validation model to adopt. A local
+check passed 100 seeded Gaussian samples through `DetailScanner`, the batch
+preparation helpers, and `Tolerogen`. With one metric and no outcomes, the path
+returned `AUTO_PROMOTE`, a confidence score of 0.9, and a prediction about
+different outcomes. The scanner split the same metric into high and low groups;
+it did not measure an outcome relationship. Batch preparation can also derive
+a missing effect size from confidence. These scores cannot support a Product
+Lab lesson.
+
+Any future discovery feature must show useful proposals beyond the existing
+assistant and simple retrieval of earlier studies. New evidence must establish
+their value and full cost. The current Workings trial still needs human feedback;
+Gaia's design does not resolve that missing evidence.

@@ -1,8 +1,15 @@
 # Product Lab
 
-Product Lab helps a builder and their assistant turn a loose idea into a useful,
-coherent, distinctive product for a defined audience. Its product context lives
-in [PRODUCT.json](PRODUCT.json). View it with `python3 lab.py brief --product PRODUCT.json`.
+Product Lab helps a builder and their assistant improve a product as a whole.
+It can start from a loose idea, an initial prototype, or an existing product.
+It operates what exists, works backward to the customer problem and assumptions,
+develops useful alternatives, tests them, and produces a coherent better version.
+Retained experience should improve later product decisions.
+
+The founder confirmed this direction on 2026-10-07 and selected Workings as the
+first target. [PLAN.md](PLAN.md) defines the development sequence and next work.
+The product context lives in [PRODUCT.json](PRODUCT.json). View it with
+`python3 lab.py brief --product PRODUCT.json`.
 
 The founder has asked for rapid prototyping, retained experience, better
 experiments, audience understanding, and exceptional craft. Those requests are
@@ -18,10 +25,18 @@ the intended audience. Code generation alone does not answer that question.
 A product owner or domain expert is a supporting user. They need to operate the
 experience, judge its fit, and see their feedback survive later changes.
 
-The first journey is: ground the idea, compare mechanisms, operate prototypes,
-judge the results, test lessons, and synthesize a coherent experience. The initial
-engine implements the experiment and evidence portion. The assistant skill
-carries the product reasoning around it. Final product synthesis is still future work.
+The complete journey is: inspect the product, understand its customers, challenge
+its assumptions, select opportunities, compare mechanisms, operate prototypes,
+judge results, synthesize a coherent experience, and test lessons on later work.
+The initial engine implements the experiment and evidence portion. The assistant
+skill carries product reasoning around it. The broader workflow and final
+product synthesis are the next development work.
+
+Review customer value, UX, accessibility, craft, performance, reliability,
+security, maintainability, and useful new capabilities. Consider simplification
+and changes to the product premise alongside new features. The process must help
+choose experiments, produce strong alternatives, and carry useful experience
+forward together.
 
 ## What better means
 

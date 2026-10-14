@@ -1,5 +1,9 @@
 # Product Lab: first executable slice
 
+This specification describes the current experiment engine. The broader product
+improvement workflow and its next implementation steps are in [PLAN.md](PLAN.md).
+Workings is the first target for that development.
+
 The user wants an assistant that starts with a loose product brief, builds and
 tests alternatives, retains useful experience, and makes better decisions on
 later work. This prototype supplies the experiment engine and an assistant skill.

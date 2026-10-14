@@ -1,10 +1,14 @@
 # Product Lab
 
-An assistant skill and local experiment engine for building products around
-their audience, testing alternatives, and checking whether lessons help later work.
+Product Lab aims to improve a product as a whole, starting from an idea, a
+prototype, or an existing product. It combines product investigation, useful
+alternatives, experiments, and retained experience.
 
-This is a runnable research prototype. It uses Python 3.11 or later and the
-standard library. The bundled demo needs no model, GPU, network, or installation.
+The current research prototype supplies an assistant skill and local experiment
+engine. [The development plan](PLAN.md) extends that foundation through Workings,
+the first target. It separates existing behavior from the broader planned workflow.
+The engine uses Python 3.11 or later and the standard library. The bundled demo
+needs no model, GPU, network, or installation.
 
 ## Try it
 
@@ -38,6 +42,13 @@ The assistant shapes and builds the actual product. The engine executes its
 trusted local evaluators. It does not yet choose experiments autonomously,
 calibrate simulated users against people, or integrate GEPA. Local product trials
 can supply their own browser evaluators.
+
+The first cycle under the broader plan now includes a
+[Workings product diagnosis](trials/workings/product-review/README.md), three
+prioritized opportunities, and a [working recovery comparison](trials/workings/recovery/README.md).
+Open `generated/workings-product-review-1/index.html` for the local builds.
+It compares the current product, a step bookmark, and draft recovery. Automated
+results establish restored state; learner benefit and founder acceptance remain open.
 
 ## Use through an assistant
 

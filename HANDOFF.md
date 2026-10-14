@@ -1,11 +1,66 @@
 # Product Lab handoff
 
-Date: 2026-09-30. The development repository is
+Updated: 2026-10-07. The development repository is
 [product-lab-ai/productlab](https://github.com/product-lab-ai/productlab), with
 `main` as its default branch. The repository is private. No plugin has been
 installed into assistant-wide settings.
 
-## Current result
+## Current direction and next work
+
+The founder confirmed the broader Product Lab direction on 2026-10-07. Start
+with an initial prototype or an existing product, work backward to the customer
+problem, inspect the whole experience, and develop useful improvements. Build
+experiment selection, working alternatives, and retained experience together.
+
+Read [PLAN.md](PLAN.md), PRODUCT.md, and PRODUCT.json. Workings is the first
+target. The [product diagnosis](trials/workings/product-review/README.md) and
+[recovery experiment](trials/workings/recovery/README.md) now implement the first
+slice. Product Lab's skill includes whole-product investigation and opportunity
+selection. Founder feedback on the old comparison trial remains useful.
+
+Gaia is prior art and a reference for ideas only. It must not become a dependency
+or integration. The recorded findings and decision are in UPSTREAM.md.
+
+The active Product Lab branch is `trial/workings` at `6eeadd2`. On resumption,
+the fetched `origin/main` matched local `main`, and it was an ancestor of this
+branch. The current 38 behavioral tests passed. The saved earlier Workings study passed candidate
+and raw-evidence integrity checks without changing its database. Its lesson
+remains proposed and reserved validation remains unused. These are checks of the
+existing implementation and records, not evidence of learner benefit.
+
+Workings remains on `feat/platform-foundation` at `f8508e0` with local changes.
+Its fetched remote branch matched HEAD. The current 155 source files, including
+local edits and new files, were copied and verified without modifying the original.
+Its existing `training/DESIGN.md` and `training/PILOT.md` cover teaching review
+and a proposed learner pilot. Reuse that work. A new product baseline must identify
+the current working state rather than assume the old trial is still identical.
+
+The new artifact is `generated/workings-product-review-1/index.html`. Open it
+directly from the shared folder. It links to the frozen baseline, a step bookmark,
+and draft recovery. Across 12 completed browser evaluations, the baseline restored
+neither step nor draft, the bookmark restored the step, and draft recovery restored
+both. All declared gates passed. Engine selection of `draft` is a functional
+comparison result, not founder acceptance or learner evidence.
+
+The candidate passed 216 Workings tests, including six recovery tests, and the
+existing full browser sweep of both agent lessons. Both alternatives passed 22
+focused browser checks. Product Lab passed Ruff checks, formatting, and the skill
+validator. Initial observation and review harness failures remain saved. Read the
+trial result document for review status, cost limits, and remaining work.
+
+Recovery code is isolated in `generated/workings-product-review-1/candidate-source`.
+The reproducible patch is `trials/workings/recovery/candidate.patch`. This source
+copy intentionally includes Workings' existing uncommitted teaching changes.
+It shares installed dependencies through a symlink. Do not apply the patch to a
+different checkout state without review. Neither Workings nor the previous trial
+was merged or overwritten. All Product Lab changes remain local and uncommitted.
+
+Next: review the delivered draft recovery experience, arrange real learner
+observations using Workings' existing pilot when participants are available, and
+test a retained lesson on fresh work. Do not add a general orchestration system
+or claim useful transfer from this one development experiment.
+
+## Existing trial result from September 30
 
 The first prototype contains a portable assistant skill, product context, an
 experiment engine, a command line interface, behavioral tests, and a runnable
@@ -99,7 +154,7 @@ is built under `generated/current-dist/`.
 
 | Check | State |
 | --- | --- |
-| Behavioral suite | 34 tests passed on the final source |
+| Behavioral suite | 38 tests passed on the current source |
 | Ruff checks and formatting | Passed |
 | Skill creator validator | Passed |
 | Strict Claude plugin manifest validation | Passed |
@@ -140,9 +195,10 @@ real user study collection, evaluator calibration, and final product synthesis.
 Browser evaluation exists in the local trials, not as a general engine adapter.
 UPSTREAM.md records the projects to build on.
 
-## Next useful trial
+## Existing comparison follow up
 
-Collect the founder's response to the Workings alternatives. Use it to choose or
-revise the comparison mechanism, then test a fresh learner task. Preserve the
+Collect the founder's response to the Workings alternatives when available.
+Use it as one input to the broader diagnosis and opportunity selection in
+PLAN.md. Any learning claim still needs a fresh learner task. Preserve the
 existing study and source bindings. Do not call the gain in available browser
 evidence a gain in understanding or learning speed.
