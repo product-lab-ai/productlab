@@ -1,0 +1,240 @@
+{
+  "product": {
+    "name": "Workings: recover unfinished practice",
+    "purpose": "Return to the same unfinished agent activity after a browser interruption.",
+    "personas": [
+      {
+        "id": "learner",
+        "name": "A new agent builder",
+        "context": "Uses AI assistants and can read simple loops and objects; has not built an agent loop.",
+        "needs": [
+          "Return to unfinished practice",
+          "Keep the actual draft without losing help history",
+          "Distinguish restored work from a completed run"
+        ],
+        "basis": "hypothesis",
+        "source": "Existing Workings brief and accepted product direction. Learning effort is unmeasured.",
+        "empathy": {
+          "says": [
+            "Hypothesis: I want to continue where I stopped"
+          ],
+          "thinks": [
+            "Hypothesis: my unrun edit should still be here"
+          ],
+          "does": [
+            "Edits a program, reloads, and re-enters the agent lesson"
+          ],
+          "feels": [
+            "Hypothesis: reconstructing lost work is frustrating"
+          ]
+        }
+      }
+    ],
+    "journeys": [
+      {
+        "id": "resume-practice",
+        "persona": "learner",
+        "trigger": "The learner reloads after editing an agent loop.",
+        "steps": [
+          {
+            "id": "edit",
+            "action": "Change an editable operation",
+            "pain": "An unrun draft differs from saved historical evidence",
+            "need": "Preserve actual current work"
+          },
+          {
+            "id": "return",
+            "action": "Re-enter the lesson after reload",
+            "pain": "The current player restarts at step one",
+            "need": "Recover the unfinished activity"
+          },
+          {
+            "id": "continue",
+            "action": "Predict and run again",
+            "pain": "An old result cannot grade the current draft",
+            "need": "Fresh execution and honest status"
+          }
+        ]
+      }
+    ],
+    "outcomes": [
+      {
+        "id": "resume-work",
+        "journey": "resume-practice",
+        "description": "Continue the same unfinished activity. The automated proxy checks place and draft, not learner effort."
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "functionality",
+        "intent": "Recover unfinished place and program",
+        "priority": "primary",
+        "tradeoff": "Compare a simple bookmark with draft retention",
+        "boundary": "Require a new prediction and run",
+        "review": "Operate reload and subsequent repair"
+      },
+      {
+        "id": "ux",
+        "intent": "Make restoration understandable in the existing cabinet",
+        "priority": "supporting",
+        "tradeoff": "A short status message uses lesson space",
+        "boundary": "Preserve content and controls",
+        "review": "Inspect mobile, keyboard, and restored state"
+      }
+    ],
+    "essentials": [
+      {
+        "id": "bounded-data",
+        "category": "security",
+        "requirement": "Validate saved operations, bounds, content and engine before restoring",
+        "verification": "Targeted invalid-data tests and source review",
+        "applies": true,
+        "reason": "Applies to saved local lesson state."
+      },
+      {
+        "id": "private-evidence",
+        "category": "privacy",
+        "requirement": "Make no external requests during the learner journey",
+        "verification": "Observe actual browser requests",
+        "applies": true,
+        "reason": "Applies to saved local lesson state."
+      },
+      {
+        "id": "retained-history",
+        "category": "data_integrity",
+        "requirement": "Keep recorded help and past runs separate from the unfinished draft",
+        "verification": "Compare historical evidence before and after reload",
+        "applies": true,
+        "reason": "Applies to saved local lesson state."
+      },
+      {
+        "id": "valid-decisions",
+        "category": "correctness",
+        "requirement": "Restored state must require a new prediction and fresh passing run",
+        "verification": "Operate reload, controls, and fresh repair",
+        "applies": true,
+        "reason": "Applies to saved local lesson state."
+      },
+      {
+        "id": "accessible-workflow",
+        "category": "accessibility",
+        "requirement": "Keep the new state reachable and readable",
+        "verification": "Inspect keyboard, mobile, and axe results",
+        "applies": true,
+        "reason": "Applies to saved local lesson state."
+      },
+      {
+        "id": "storage-failure",
+        "category": "recovery",
+        "requirement": "Continue with an honest notice when storage fails",
+        "verification": "Operate the browser with blocked storage",
+        "applies": true,
+        "reason": "Applies to saved local lesson state."
+      },
+      {
+        "id": "honest-results",
+        "category": "honesty",
+        "requirement": "Describe recovered work without claiming learning gains",
+        "verification": "Review copy and report",
+        "applies": true,
+        "reason": "Applies to saved local lesson state."
+      },
+      {
+        "id": "bounded-actions",
+        "category": "safety",
+        "requirement": "Keep lesson content and bounded execution unchanged",
+        "verification": "Source diff and existing behavior suite",
+        "applies": true,
+        "reason": "Applies to saved local lesson state."
+      }
+    ],
+    "craft": {
+      "intent": "Continue an interrupted activity with clear state.",
+      "audience_effect": "The learner can see what was restored and what must run again.",
+      "distinctive_character": "Keep the existing cabinet, code, and trace experience.",
+      "anti_goals": [
+        "A separate recovery dashboard",
+        "Restoring a passing verdict",
+        "A new visual identity"
+      ],
+      "review_prompts": [
+        "Is recovery clear?",
+        "Is the current draft distinguishable from past evidence?",
+        "Can the learner continue with existing controls?"
+      ]
+    },
+    "non_goals": [
+      "Human learning claims",
+      "Publishing or merging",
+      "Free-play or general course recovery",
+      "Cloud or account sync"
+    ]
+  },
+  "journey": "resume-practice",
+  "question": "Does recovering the step also retain the actual unfinished draft?",
+  "evidence_kind": "automated",
+  "repeats": 2,
+  "timeout_seconds": 120,
+  "metrics": [
+    {
+      "name": "recovered_state",
+      "direction": "maximize",
+      "role": "primary",
+      "min_gain": 0.1,
+      "max_loss": 0,
+      "limit": 0,
+      "aggregation": "worst",
+      "outcome": "resume-work",
+      "dimension": "functionality"
+    }
+  ],
+  "gates": [
+    {
+      "id": "valid-recovery",
+      "requirement": "valid-decisions"
+    },
+    {
+      "id": "private-browser",
+      "requirement": "private-evidence"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "unsent-observation-edit",
+      "family": "observation-edit",
+      "split": "development",
+      "input": {
+        "lesson": "tool-using-agent",
+        "beat": "return-the-result",
+        "draft": {
+          "observation": "wrong-id"
+        }
+      }
+    },
+    {
+      "id": "unsent-answer-edit",
+      "family": "answer-edit",
+      "split": "development",
+      "input": {
+        "lesson": "tool-using-agent",
+        "beat": "return-the-answer",
+        "draft": {
+          "finish": "return"
+        }
+      }
+    },
+    {
+      "id": "reserved-retry-edit",
+      "family": "retry-edit",
+      "split": "validation",
+      "input": {
+        "lesson": "retry-tools",
+        "beat": "allow-one-retry",
+        "draft": {
+          "onError": "retry",
+          "retries": 1
+        }
+      }
+    }
+  ]
+}

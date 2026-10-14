@@ -1,0 +1,247 @@
+--- a/src/platform/LessonFlow.tsx
++++ b/src/platform/LessonFlow.tsx
+@@ -1,8 +1,10 @@
+ import { useEffect, useRef, useState, type ReactNode } from "react";
+ import type { DeckProps, LessonNavigation } from "../shell/cabinet/ControlDeck";
+ import type { FreePlayBeatBase, Lesson, PlayBeatBase } from "./lesson";
++import { readPosition, recoveryEnabled, saveRecovery, type RecoveryScope } from "./lesson-recovery";
+ 
+ export type LessonPlayerProps = {
++  courseId?: string;
+   stageNumber: number;
+   onDeckChange: (deck: DeckProps | null) => void;
+   onNavigationChange: (navigation: LessonNavigation | null) => void;
+@@ -17,16 +19,29 @@
+   onComplete,
+   renderPlay,
+   renderFreePlay,
++  recovery,
+ }: LessonPlayerProps & {
+   lesson: Lesson<Play, Free>;
++  recovery?: RecoveryScope;
+   renderPlay: (beat: Play, onSettled: () => void, onUnsettled: () => void) => ReactNode;
+   renderFreePlay: (beat: Free) => ReactNode;
+ }) {
+-  const [index, setIndex] = useState(0);
++  const [index, setIndex] = useState(() => {
++    try { return recoveryEnabled && recovery ? readPosition(localStorage, recovery, lesson.beats) : 0; }
++    catch { return 0; }
++  });
++  const [canSavePosition, setCanSavePosition] = useState(true);
+   const [settled, setSettled] = useState<Record<string, boolean>>({});
+   const completed = useRef(false);
+   const main = useRef<HTMLElement>(null);
+   const beat = lesson.beats[index];
++
++  useEffect(() => {
++    if (!recoveryEnabled || !recovery || !beat) return;
++    try {
++      setCanSavePosition(saveRecovery(localStorage, recovery, ":position", beat.kind === "free-play" ? null : beat.id));
++    } catch { setCanSavePosition(false); }
++  }, [beat, recovery]);
+ 
+   useEffect(() => () => { onDeckChange(null); }, [onDeckChange]);
+ 
+@@ -74,6 +89,9 @@
+       <h1 className="stage-name">{lesson.title}</h1>
+       <p className="lesson-progress evidence-meta">Step {index + 1} of {lesson.beats.length}</p>
+       </header>
++      {recoveryEnabled && recovery ? <p className="evidence-meta" role="status">{canSavePosition
++        ? "Your place is saved in this browser. Use Back to revisit earlier steps."
++        : "Your place cannot be saved in this browser. You can keep working here."}</p> : null}
+ 
+       {beat.kind === "teach" || beat.kind === "recap" ? (
+         <div className="phase-enter" key={beat.id}>
+--- /dev/null
++++ b/src/platform/lesson-recovery.ts
+@@ -0,0 +1,45 @@
++import { AGENT_ENGINE_VERSION, programProblem, type AgentProgram } from "../engine/agent-loop";
++
++export const recoveryMode = import.meta.env.VITE_LESSON_RECOVERY;
++export const recoveryEnabled = recoveryMode === "bookmark" || recoveryMode === "draft";
++export type RecoveryScope = { key: string; signature: string };
++type RecoveryStorage = Pick<Storage, "getItem" | "setItem" | "removeItem">;
++
++export function recoveryScope<L extends { id: string }>(course: string, lesson: L): RecoveryScope {
++  return {
++    key: `workings-recovery-v1:${JSON.stringify([course, lesson.id])}`,
++    // Match the complete content and engine, including edits without a revision bump.
++    signature: JSON.stringify([AGENT_ENGINE_VERSION, lesson]),
++  };
++}
++
++function read(storage: RecoveryStorage, scope: RecoveryScope, suffix: string): unknown {
++  try {
++    const record = JSON.parse(storage.getItem(scope.key + suffix) ?? "null");
++    return record?.signature === scope.signature ? record.value : null;
++  } catch { return null; }
++}
++
++export function saveRecovery(storage: RecoveryStorage, scope: RecoveryScope, suffix: string, value: unknown): boolean {
++  try {
++    storage.setItem(scope.key + suffix, JSON.stringify({ signature: scope.signature, value }));
++    return true;
++  } catch { return false; }
++}
++
++export function readPosition(storage: RecoveryStorage, scope: RecoveryScope, beats: { id: string; kind: string }[]): number {
++  const id = read(storage, scope, ":position");
++  const index = beats.findIndex((beat) => beat.id === id && beat.kind !== "free-play");
++  return index < 0 ? 0 : index;
++}
++
++export function readDraft(storage: RecoveryStorage, scope: RecoveryScope, beat: { id: string; program: AgentProgram; editable: (keyof AgentProgram)[] }): AgentProgram | null {
++  const value = read(storage, scope, `:draft:${beat.id}`);
++  if (programProblem(value) !== null) return null;
++  const program = value as AgentProgram;
++  for (const key of Object.keys(beat.program) as (keyof AgentProgram)[]) {
++    if (typeof program[key] !== typeof beat.program[key]) return null;
++    if (!beat.editable.includes(key) && program[key] !== beat.program[key]) return null;
++  }
++  return { ...program };
++}
+--- /dev/null
++++ b/src/platform/lesson-recovery.test.ts
+@@ -0,0 +1,70 @@
++import { describe, expect, it } from "vitest";
++import { workingProgram } from "../engine/agent-loop";
++import { readDraft, readPosition, recoveryScope, saveRecovery } from "./lesson-recovery";
++
++function memory() {
++  const values = new Map<string, string>();
++  return {
++    getItem: (key: string) => values.get(key) ?? null,
++    setItem: (key: string, value: string) => { values.set(key, value); },
++    removeItem: (key: string) => { values.delete(key); },
++  };
++}
++const lesson = { id: "tools", revision: 1, title: "Tools" };
++const scope = recoveryScope("ai", lesson);
++const beat = { id: "repair", program: workingProgram, editable: ["observation"] as const };
++const editableBeat = { ...beat, editable: [...beat.editable] };
++const beats = [{ id: "intro", kind: "teach" }, { id: "repair", kind: "play" }, { id: "end", kind: "free-play" }];
++
++describe("lesson recovery", () => {
++  it("restores an unfinished place and actual draft without a grade", () => {
++    const storage = memory();
++    saveRecovery(storage, scope, ":position", "repair");
++    const draft = { ...workingProgram, observation: "wrong-id" as const };
++    saveRecovery(storage, scope, ":draft:repair", draft);
++    expect(readPosition(storage, scope, beats)).toBe(1);
++    expect(readDraft(storage, scope, editableBeat)).toEqual(draft);
++    expect(readDraft(storage, scope, editableBeat)).not.toHaveProperty("passed");
++  });
++  it("separates courses and invalidates content even without a revision bump", () => {
++    const storage = memory();
++    saveRecovery(storage, scope, ":position", "repair");
++    saveRecovery(storage, scope, ":draft:repair", workingProgram);
++    for (const other of [recoveryScope("ansible", lesson), recoveryScope("ai", { ...lesson, title: "Changed" })]) {
++      expect(readPosition(storage, other, beats)).toBe(0);
++      expect(readDraft(storage, other, editableBeat)).toBeNull();
++    }
++  });
++  it("refuses corrupt data and unsupported or locked operations", () => {
++    const storage = memory();
++    storage.setItem(scope.key + ":draft:repair", "{");
++    expect(readDraft(storage, scope, editableBeat)).toBeNull();
++    for (const invalid of [
++      { ...workingProgram, maxTurns: 99 },
++      { ...workingProgram, dispatch: "stop" },
++      { ...workingProgram, observation: ["append"] },
++      { ...workingProgram, passed: true },
++    ]) {
++      saveRecovery(storage, scope, ":draft:repair", invalid);
++      expect(readDraft(storage, scope, editableBeat)).toBeNull();
++    }
++  });
++  it("does not restore an unknown step or the completion destination", () => {
++    const storage = memory();
++    for (const id of ["end", "missing", 2, null]) {
++      saveRecovery(storage, scope, ":position", id);
++      expect(readPosition(storage, scope, beats)).toBe(0);
++    }
++  });
++  it("ignores an old engine binding", () => {
++    const storage = memory();
++    saveRecovery(storage, { ...scope, signature: "old engine" }, ":draft:repair", workingProgram);
++    expect(readDraft(storage, scope, editableBeat)).toBeNull();
++  });
++  it("returns failure when storage is unavailable", () => {
++    const storage = { getItem() { throw Error("blocked"); }, setItem() { throw Error("full"); }, removeItem() {} };
++    expect(saveRecovery(storage, scope, ":position", "repair")).toBe(false);
++    expect(readPosition(storage, scope, beats)).toBe(0);
++    expect(readDraft(storage, scope, editableBeat)).toBeNull();
++  });
++});
+--- a/src/courses/ai/AgentLesson.tsx
++++ b/src/courses/ai/AgentLesson.tsx
+@@ -5,6 +5,7 @@
+ import { emptyEvidence, evidenceKey, readEvidence, type AgentEvidence } from "../../platform/agent-evidence";
+ import "./agent-lesson.css";
+ import { describeMessage, explainRun, explainStep } from "./agent-feedback";
++import { readDraft, recoveryMode, recoveryScope, saveRecovery, type RecoveryScope } from "../../platform/lesson-recovery";
+ 
+ const packages = import.meta.glob("../../content/lessons/*.json", { eager: true, import: "default" });
+ export function loadAgentLesson(id: string): AgentLesson {
+@@ -19,12 +20,23 @@
+   { key: "retries", label: "Maximum retries after errors", choices: [0, 1, 2].map((n) => ({ value: String(n), label: String(n) })) },
+ ];
+ 
+-function AgentWorkbench({ lesson, beat, onDeckChange, onSettled, onUnsettled }: {
++function AgentWorkbench({ lesson, beat, onDeckChange, onSettled, onUnsettled, recovery }: {
+   lesson: AgentLesson; beat: AgentPlayBeat | AgentFreeBeat;
++  recovery: RecoveryScope;
+   onDeckChange: LessonPlayerProps["onDeckChange"]; onSettled?: () => void; onUnsettled?: () => void;
+ }) {
+   const play = beat.kind === "play" ? beat : null;
+-  const [program, setProgram] = useState<AgentProgram>({ ...beat.program });
++  const [restored] = useState(() => {
++    try { return recoveryMode === "draft" && play ? readDraft(localStorage, recovery, play) : null; }
++    catch { return null; }
++  });
++  const [program, setProgram] = useState<AgentProgram>(restored ?? { ...beat.program });
++  const [canSaveDraft, setCanSaveDraft] = useState(true);
++  useEffect(() => {
++    if (recoveryMode !== "draft" || !play) return;
++    try { setCanSaveDraft(saveRecovery(localStorage, recovery, `:draft:${beat.id}`, program)); }
++    catch { setCanSaveDraft(false); }
++  }, [program, beat.id, recovery]);
+   const [prediction, setPrediction] = useState<string | null>(null);
+   const [run, setRun] = useState<AgentRun | null>(null);
+   const [running, setRunning] = useState(false);
+@@ -125,6 +137,10 @@
+       <p className="agent-task-request"><span>Task</span>Check stock for {selectedCase.items.join(" and ")}. Answer using the tool results.</p>
+     </div>
+     <p className="simulation-note">Simulated model responses. The loop and inventory tool execute locally. No API key or model calls leave your browser.</p>
++    {recoveryMode === "draft" && play ? <p className="evidence-meta" role="status">{!canSaveDraft
++      ? "Your draft cannot be saved in this browser. You can keep working here."
++      : restored && !run ? "Your draft was restored. Choose a prediction and run it again."
++      : "Your draft is saved in this browser."}</p> : null}
+     {!play ? <label className="agent-practice-select">Practice case <select aria-label="Practice case" value={practiceIndex} disabled={running} onChange={(event) => { setPracticeIndex(Number(event.target.value)); invalidate(program); }}>
+       {beat.cases.map((item, index) => <option key={item.id} value={index}>{item.title}</option>)}
+     </select></label> : null}
+@@ -191,9 +207,10 @@
+ }
+ 
+ export function AgentLessonView({ lesson, ...props }: LessonPlayerProps & { lesson: AgentLesson }) {
+-  return <LessonFlow {...props} lesson={lesson}
+-    renderPlay={(beat, onSettled, onUnsettled) => <AgentWorkbench lesson={lesson} beat={beat} onDeckChange={props.onDeckChange} onSettled={onSettled} onUnsettled={onUnsettled} />}
+-    renderFreePlay={(beat) => <AgentWorkbench lesson={lesson} beat={beat} onDeckChange={props.onDeckChange} />} />;
++  const recovery = useMemo(() => recoveryScope(props.courseId ?? "preview", lesson), [props.courseId, lesson]);
++  return <LessonFlow {...props} lesson={lesson} recovery={recovery}
++    renderPlay={(beat, onSettled, onUnsettled) => <AgentWorkbench recovery={recovery} lesson={lesson} beat={beat} onDeckChange={props.onDeckChange} onSettled={onSettled} onUnsettled={onUnsettled} />}
++    renderFreePlay={(beat) => <AgentWorkbench recovery={recovery} lesson={lesson} beat={beat} onDeckChange={props.onDeckChange} />} />;
+ }
+ 
+ export default function ToolAgentLesson(props: LessonPlayerProps) {
+--- a/src/shell/App.tsx
++++ b/src/shell/App.tsx
+@@ -71,7 +71,7 @@
+       {!saved.canSave ? <p role="status" className="save-notice">{SHELL_COPY.unsavedProgress}</p> : null}
+       <ErrorBoundary key={lessonKey}>
+         <Suspense fallback={<main><p role="status">{SHELL_COPY.loading}</p></main>}>
+-          <Player key={lessonKey} stageNumber={route.stageNumber} onDeckChange={setDeck}
++          <Player key={lessonKey} courseId={route.course.id} stageNumber={route.stageNumber} onDeckChange={setDeck}
+             onNavigationChange={setNavigation} onComplete={markComplete} />
+         </Suspense>
+       </ErrorBoundary>
