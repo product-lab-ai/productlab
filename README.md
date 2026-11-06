@@ -1,5 +1,7 @@
 # Product Lab
 
+> **Status:** The demo, brief, and report commands run from a fresh clone with the standard library only. No model integration is wired; the bundled study is synthetic. Maintained as a research prototype.
+
 An assistant skill and local experiment engine for building products around
 their audience, testing alternatives, and checking whether lessons help later work.
 
